@@ -29,6 +29,42 @@ Resource Terraform для Yandex Cloud:
 - [Route table](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/vpc_route_table).
 - [Compute Instance](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/compute_instance).
 
+[main.tf](https://github.com/JulieJool/ter-hw-01/blob/main/src/main.tf)      
+[variables.tf](https://github.com/JulieJool/ter-hw-01/blob/main/src/variables.tf)      
+[providers.tf](https://github.com/JulieJool/ter-hw-01/blob/main/src/providers.tf)      
+[output.tf](https://github.com/JulieJool/ter-hw-01/blob/main/src/output.tf)      
+
+
+![1](https://github.com/JulieJool/ter-hw-01/blob/main/img/1.png)      
+ 
+![2](https://github.com/JulieJool/ter-hw-01/blob/main/img/2.png)       
+
+Подлючение к vm из подсети public:     
+![3](https://github.com/JulieJool/ter-hw-01/blob/main/img/3.png)       
+
+Подлючение к vm из подсети private:    
+![4](https://github.com/JulieJool/ter-hw-01/blob/main/img/4.png)       
+
+При выполнении команды `curl ifconfig.me` на vm из подсети private выдается публичный ip nat-инстанса:    
+![5](https://github.com/JulieJool/ter-hw-01/blob/main/img/5.png)       
+
+При этом, обратим внимание на вывод команды `ip route show default` на vm из подсети private:    
+![6](https://github.com/JulieJool/ter-hw-01/blob/main/img/6.png)          
+
+и на vm из подсети public:      
+![7](https://github.com/JulieJool/ter-hw-01/blob/main/img/7.png)      
+
+- 192.168.20.1 — стандартный шлюз private-подсети в Yandex Cloud, 192.168.10.1 — стандартный шлюз public-подсети;     
+- nat-инстанс (192.168.10.254) указан в Route Table как next-hop для трафика 0.0.0.0/0.
+
+Yandex Cloud автоматически проксирует трафик через nat-инстанс. В этом выводе 192.168.10.254 не является шлюзом, потому что ***в Yandex Cloud подсети не видят шлюзы других подсетей напрямую.***     
+
+Механизм работы:      
+- Private-vm отправляет трафик на свой шлюз (192.168.20.1);     
+- Yandex Cloud смотрит Route Table и перенаправляет трафик в NAT-инстанс;    
+- nat-инстанс (192.168.10.254) делает MASQUERADE и выходит в интернет.     
+
+
 ---
 ### Задание 2. AWS* (задание со звёздочкой)
 
