@@ -29,6 +29,9 @@ Resource Terraform для Yandex Cloud:
 - [Route table](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/vpc_route_table).
 - [Compute Instance](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/compute_instance).
 
+---
+### Решение:   
+
 [main.tf](https://github.com/JulieJool/ter-hw-01/blob/main/src/main.tf)      
 [variables.tf](https://github.com/JulieJool/ter-hw-01/blob/main/src/variables.tf)      
 [providers.tf](https://github.com/JulieJool/ter-hw-01/blob/main/src/providers.tf)      
